@@ -1,10 +1,17 @@
+import { Sandbox } from "@e2b/code-interpreter";
 import { createAgent, openai } from "@inngest/agent-kit";
 import { inngest } from "./client";
+import { getSandbox } from "./utils";
 
 export const helloWorld = inngest.createFunction(
   { id: "hello-world" },
   { event: "test/hello.world" },
   async ({ event, step }) => {
+    const sandboxId = await step.run("get-sandbox-id", async () => {
+      const sandbox = await Sandbox.create("talk2build-nextjs-test-2");
+      return sandbox.sandboxId;
+    });
+
     const codeAgent = createAgent({
       name: "code-agent",
       system:
@@ -15,7 +22,13 @@ export const helloWorld = inngest.createFunction(
     const { output } = await codeAgent.run(
       `Write the following snippet: ${event.data.value}`
     );
+
+    const sandboxUrl = await step.run("get-sandbox-url", async () => {
+      const sandbox = await getSandbox(sandboxId);
+      return sandbox.getHost(3000);
+    });
+
     //@ts-ignore
-    return { output };
+    return { output, sandboxUrl };
   }
 );
