@@ -33,7 +33,7 @@ const Page = () => {
           onClick={() => createProject.mutate({ value: text })}
           className="pointer"
         >
-          Invoke Background Job
+          Submit
         </Button>
       </div>
     </div>
