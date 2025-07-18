@@ -22,7 +22,7 @@ export const AssistantMessage = ({ content, fragment, createdAt, isActiveFragmen
     )}>
       <div className="flex items-center gap-2 pl-2 mb-2">
         {/* TODO: add log*/}
-        <span className="text-sm font-medium">Vibe</span>
+        <span className="text-sm font-medium">Talk2Build</span>
         <span className="text-xs text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
           {format(createdAt, "HH:mm 'on' MMM dd, yyyy")}
         </span>
